@@ -21,8 +21,8 @@ scene.add(redCube)
 scene.add(blueCube)
 
 const sizes = {
-  width: 800,
-  height: 600
+  width: window.innerWidth,
+  height: window.innerHeight
 }
 
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
@@ -36,3 +36,24 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 
 renderer.render(scene, camera)
+
+window.addEventListener('resize', () => {
+  sizes.width = window.innerWidth
+  sizes.height = window.innerHeight
+
+  camera.aspect = sizes.width / sizes.height
+  camera.updateProjectionMatrix()
+
+  renderer.setSize(sizes.width, sizes.height)
+  renderer.render(scene, camera)
+})
+
+window.addEventListener('click', () => {
+  
+  // Move camera
+  const position = camera.position.z < 2 ? 5 : camera.position.z-1
+  camera.position.z = position
+
+  camera.updateProjectionMatrix()
+  renderer.render(scene, camera)
+})
